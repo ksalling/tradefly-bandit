@@ -8,7 +8,9 @@ import socket
 import aiohttp
 
 LOG_ADDRESS = '/dev/log'
-API_URL = "http://tradefly-tradeflydjango-otrt2b:8282/api/banditMessages/"
+API_SERVER = 'http://tradefly-tradeflydjango-otrt2b:8282'
+API_TEST_URL = "/api/banditTest/"
+API_URL = "/api/banditMessages/"
 
 
 load_dotenv()
@@ -58,13 +60,13 @@ async def send_startup_check():
     }
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.post(API_URL, json=payload) as response:
+            async with session.post(API_SERVER + API_TEST_URL, json=payload) as response:
                 if response.status == 201:
                     logger.info("Startup API check successful: Message sent.")
                 else:
                     logger.error(f"Startup API check failed. Status: {response.status}, Response: {await response.text()}")
     except Exception as e:
-        logger.error(f"Startup API check failed. Could not connect to {API_URL}. Error: {e}")
+        logger.error(f"Startup API check failed. Could not connect to {API_SERVER + API_TEST_URL}. Error: {e}")
 
 @bot.event
 async def on_ready():
@@ -107,13 +109,13 @@ async def on_message(message):
         # Send the POST request asynchronously
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post(API_URL, json=payload) as response:
+                async with session.post(API_SERVER + API_URL, json=payload) as response:
                     if response.status == 201:
                         logger.info(f"Successfully sent message from '{message.channel.name}' to API.")
                     else:
                         logger.error(f"Failed to send message to API. Status: {response.status}, Response: {await response.text()}")
         except aiohttp.ClientConnectorError as e:
-            logger.error(f"Could not connect to the API endpoint at {API_URL}. Please ensure the Django server is running. Error: {e}")
+            logger.error(f"Could not connect to the API endpoint at {API_SERVER + API_URL}. Please ensure the Django server is running. Error: {e}")
 
     await bot.process_commands(message)
 
