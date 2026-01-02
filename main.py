@@ -61,7 +61,7 @@ async def send_startup_check():
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(API_SERVER + API_TEST_URL, json=payload) as response:
-                if response.status == 201:
+                if response.status == 200:
                     logger.info("Startup API check successful: Message sent.")
                 else:
                     logger.error(f"Startup API check failed. Status: {response.status}, Response: {await response.text()}")
