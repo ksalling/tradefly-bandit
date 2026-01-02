@@ -41,13 +41,13 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
 # Make entry file executable
-RUN chmod +rx  /app/entrypoint.prod.sh
+RUN chmod +rx  /app/entrypoint.sh
  
 # Switch to non-root user
 USER appuser
  
 # Expose the application port
-EXPOSE 8000 
+#EXPOSE 8000 
 
 # Start the application using Gunicorn
 CMD ["/app/entrypoint.sh"]
