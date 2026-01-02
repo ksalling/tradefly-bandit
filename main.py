@@ -71,7 +71,6 @@ async def send_startup_check():
 @bot.event
 async def on_ready():
     logger.info(f"we are ready to go: {bot.user.name}")
-    logger.info(f"Channel Test: {os.getenv("CHANNELS_TEST")}")
     #print(f"we are ready to go: {bot.user.name}")
     await send_startup_check()
 
