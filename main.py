@@ -96,6 +96,7 @@ async def on_message(message):
 
     channels_to_process = os.getenv("CHANNELS_TO_PROCESS").split(',')
     channel_list = [hrj, fj, signal_scanner]
+    logger.info(f"Channels to process: {channels_to_process} \n Message Received From: {message.channel.id}")
     
     if message.channel.id in channels_to_process:
         #print(" \nFound in Channel List")
