@@ -92,9 +92,10 @@ async def on_message(message):
     flex = 1350317108927401984
     pumpamentals = 1358833841959337984
     squad_charts = 1350317442861105212
+    signal_scanner = 1451349692821536859
 
 
-    channel_list = [hrj, fj]
+    channel_list = [hrj, fj, signal_scanner]
     
     if message.channel.id in channel_list:
         #print(" \nFound in Channel List")
