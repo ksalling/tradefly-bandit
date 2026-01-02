@@ -8,6 +8,7 @@ import socket
 import aiohttp
 
 LOG_ADDRESS = '/dev/log'
+API_URL = "http://tradefly-tradeflydjango-otrt2b/api/banditMessages/"
 
 
 load_dotenv()
@@ -40,16 +41,36 @@ except (FileNotFoundError, OSError) as e:
 
 ######## END LOGGING CODE #########
 
+
+
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+async def send_startup_check():
+    """Sends a blank message to the API to verify connectivity on startup."""
+    payload = {
+        "channel_id": "0",
+        "channel_name": "Startup Check",
+        "message": ""
+    }
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(API_URL, json=payload) as response:
+                if response.status == 201:
+                    logger.info("Startup API check successful: Message sent.")
+                else:
+                    logger.error(f"Startup API check failed. Status: {response.status}, Response: {await response.text()}")
+    except Exception as e:
+        logger.error(f"Startup API check failed. Could not connect to {API_URL}. Error: {e}")
+
 @bot.event
 async def on_ready():
     logger.info(f"we are ready to go: {bot.user.name}")
     #print(f"we are ready to go: {bot.user.name}")
+    await send_startup_check()
 
 
 @bot.event
@@ -77,9 +98,6 @@ async def on_message(message):
         #print(" \nFound in Channel List")
         logger.info(f"Message received in monitored channel: {message.channel.name}")
         
-        # Define the API endpoint and the data payload
-        api_url = "http://tradefly-tradeflydjango-otrt2b/api/banditMessages/"
-        #api_url = "http://127.0.0.1/api/banditMessages/"
         payload = {
             "channel_id": str(message.channel.id),
             "channel_name": message.channel.name,
@@ -89,13 +107,13 @@ async def on_message(message):
         # Send the POST request asynchronously
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post(api_url, json=payload) as response:
+                async with session.post(API_URL, json=payload) as response:
                     if response.status == 201:
                         logger.info(f"Successfully sent message from '{message.channel.name}' to API.")
                     else:
                         logger.error(f"Failed to send message to API. Status: {response.status}, Response: {await response.text()}")
         except aiohttp.ClientConnectorError as e:
-            logger.error(f"Could not connect to the API endpoint at {api_url}. Please ensure the Django server is running. Error: {e}")
+            logger.error(f"Could not connect to the API endpoint at {API_URL}. Please ensure the Django server is running. Error: {e}")
 
     await bot.process_commands(message)
 
