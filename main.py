@@ -22,17 +22,20 @@ logger = logging.getLogger('bandit')
 logger.setLevel(logging.INFO)
 
 try:
-    handler = SysLogHandler(address=LOG_ADDRESS, facility=SysLogHandler.LOG_DAEMON)
-    
-    # Optional: Define the format of the message in the system log
-    formatter = logging.Formatter('%(name)s: %(levelname)s: %(message)s')
-    handler.setFormatter(formatter)
-    
-    logger.addHandler(handler)
+    if os.path.exists(LOG_ADDRESS):
+        handler = SysLogHandler(address=LOG_ADDRESS, facility=SysLogHandler.LOG_DAEMON)
+        
+        # Optional: Define the format of the message in the system log
+        formatter = logging.Formatter('%(name)s: %(levelname)s: %(message)s')
+        handler.setFormatter(formatter)
+        
+        logger.addHandler(handler)
+    else:
+        raise FileNotFoundError(f"SysLog socket not found at {LOG_ADDRESS}")
 
-except FileNotFoundError:
+except (FileNotFoundError, OSError) as e:
     # Fallback if the /dev/log socket isn't present (e.g., on Windows or specific non-standard setups)
-    print(f"Warning: SysLog socket not found at {LOG_ADDRESS}. Logging to console.")
+    print(f"Warning: SysLog logging disabled ({e}). Logging to console.")
     logger.addHandler(logging.StreamHandler())
 
 ######## END LOGGING CODE #########
