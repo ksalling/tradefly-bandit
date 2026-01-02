@@ -94,9 +94,18 @@ async def on_message(message):
     squad_charts = 1350317442861105212
     signal_scanner = 1451349692821536859
 
+    channel_names = {
+        1370614665649979472: "HRJ",
+        1379787390155096105: "FJ",
+        1451349692821536859: "SIGSCAN",
+        1362101608984481938: "SHENANIGANS"
+    }
+
     channels_to_process = os.getenv("CHANNELS_TO_PROCESS").split(',')
     channel_list = [hrj, fj, signal_scanner]
     logger.info(f"Channels to process: {channels_to_process} \n Message Received From: {message.channel.id}")
+
+    logger.info(f"name check: {channel_names[message.channel.id]}")
     
     if str(message.channel.id) in channels_to_process:
         #print(" \nFound in Channel List")
