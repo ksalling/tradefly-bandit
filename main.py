@@ -97,8 +97,7 @@ async def on_message(message):
     channel_names = {
         1370614665649979472: "HRJ",
         1379787390155096105: "FJ",
-        1451349692821536859: "SIGSCAN",
-        1362101608984481938: "SHENANIGANS"
+        1451349692821536859: "SIGSCAN"
     }
 
     channels_to_process = os.getenv("CHANNELS_TO_PROCESS").split(',')
@@ -113,7 +112,7 @@ async def on_message(message):
         
         payload = {
             "channel_id": str(message.channel.id),
-            "channel_name": message.channel.name,
+            "channel_name": channel_names[message.channel.id],
             "message": message.content
         }
         
