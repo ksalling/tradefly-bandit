@@ -94,10 +94,10 @@ async def on_message(message):
     squad_charts = 1350317442861105212
     signal_scanner = 1451349692821536859
 
-
+    channels_to_process = os.getenv("CHANNELS_TO_PROCESS").split(',')
     channel_list = [hrj, fj, signal_scanner]
     
-    if message.channel.id in channel_list:
+    if message.channel.id in channels_to_process:
         #print(" \nFound in Channel List")
         logger.info(f"Message received in monitored channel: {message.channel.name}")
         
