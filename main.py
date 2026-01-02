@@ -75,7 +75,8 @@ async def on_message(message):
         logger.info(f"Message received in monitored channel: {message.channel.name}")
         
         # Define the API endpoint and the data payload
-        api_url = "http://127.0.0.1/api/banditMessages/"
+        api_url = "http://tradefly-tradeflydjango-otrt2b/api/banditMessages/"
+        #api_url = "http://127.0.0.1/api/banditMessages/"
         payload = {
             "channel_id": str(message.channel.id),
             "channel_name": message.channel.name,
