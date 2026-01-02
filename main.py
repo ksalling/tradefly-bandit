@@ -8,7 +8,7 @@ import socket
 import aiohttp
 
 LOG_ADDRESS = '/dev/log'
-API_URL = "http://tradefly-tradeflydjango-otrt2b/api/banditMessages/"
+API_URL = "http://tradefly-tradeflydjango-otrt2b:8282/api/banditMessages/"
 
 
 load_dotenv()
