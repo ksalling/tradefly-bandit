@@ -98,7 +98,7 @@ async def on_message(message):
     channel_list = [hrj, fj, signal_scanner]
     logger.info(f"Channels to process: {channels_to_process} \n Message Received From: {message.channel.id}")
     
-    if message.channel.id in channels_to_process:
+    if str(message.channel.id) in channels_to_process:
         #print(" \nFound in Channel List")
         logger.info(f"Message received in monitored channel: {message.channel.name}")
         
