@@ -103,11 +103,9 @@ async def on_message(message):
     channels_to_process = os.getenv("CHANNELS_TO_PROCESS").split(',')
     channel_list = [hrj, fj, signal_scanner]
     logger.info(f"Channels to process: {channels_to_process} \n Message Received From: {message.channel.id}")
-
-    logger.info(f"name check: {channel_names[message.channel.id]}")
     
     if str(message.channel.id) in channels_to_process:
-        #print(" \nFound in Channel List")
+        logger.info(f"Name Check: {channel_names[message.channel.id]}")
         logger.info(f"Message received in monitored channel: {message.channel.name}")
         
         payload = {
