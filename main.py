@@ -8,7 +8,7 @@ import socket
 import aiohttp
 
 LOG_ADDRESS = '/dev/log'
-API_SERVER = 'http://tradefly-tradeflydjango-otrt2b:8282'
+#API_SERVER = 'http://tradefly-tradeflydjango-otrt2b:8282'
 API_TEST_URL = "/api/banditTest/"
 API_URL = "/api/banditMessages/"
 
@@ -16,6 +16,7 @@ API_URL = "/api/banditMessages/"
 load_dotenv()
 
 token = os.getenv('DISCORD_TOKEN')
+API_SERVER = os.getenv('API_SERVER')
 
 
 ######## LOGGING CODE ########
